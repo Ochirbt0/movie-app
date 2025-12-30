@@ -27,14 +27,12 @@ const movieTopRated = async () => {
 export const TopRated = async () => {
   const { topRatedMoviesResults }: { topRatedMoviesResults: Movie[] } =
     await movieTopRated();
-  const garchig = "Top Rated";
+  const category2 = "Top Rated";
   return (
     <div className="flex flex-wrap justify-center md:space-x-8">
       <div className="flex flex-col">
         <div className="flex pb-8 pt-13 justify-between">
-          <p className="text-2xl font-semibold" key={garchig}>
-            {garchig}
-          </p>
+          <p className="text-2xl font-semibold">{category2}</p>
           <Link href="/category/top_rated">
             <button className="pr-10">see more</button>
           </Link>

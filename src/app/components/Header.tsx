@@ -10,6 +10,7 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
+import { SearchButton } from "./SearchButton";
 
 export const Header = () => {
   return (
@@ -24,12 +25,7 @@ export const Header = () => {
             <button>genre</button>
           </div>
           <div className=" w-94.75 md:block hidden">
-            <InputGroup>
-              <InputGroupInput placeholder="Search..." />
-              <InputGroupAddon>
-                <Search />
-              </InputGroupAddon>
-            </InputGroup>
+            <SearchButton />
           </div>
         </div>
         <div className="w-9 h-9 flex border justify-center items-center rounded-md">

@@ -22,7 +22,6 @@ const movieUpcoming = async () => {
 
   const upcomingMovies = await responseUpcoming.json();
   const upcomingMoviesResults = upcomingMovies.results;
-  console.log(upcomingMovies);
 
   return { upcomingMoviesResults };
 };
@@ -30,12 +29,12 @@ const movieUpcoming = async () => {
 export const Upcoming = async () => {
   const { upcomingMoviesResults }: { upcomingMoviesResults: Movie[] } =
     await movieUpcoming();
-  const garchig = "Upcoming";
+  const category1 = "Upcoming";
   return (
     <div className="flex flex-wrap justify-center md:items-center md:space-x-8">
       <div className="flex flex-col">
         <div className="flex pb-8 pt-13 justify-between">
-          <p className="text-2xl font-semibold">{garchig}</p>
+          <p className="text-2xl font-semibold">{category1}</p>
           <Link href="/category/upcoming">
             <button className="pr-10">see more</button>
           </Link>

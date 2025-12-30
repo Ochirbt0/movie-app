@@ -27,14 +27,12 @@ const moviePopular = async () => {
 export const Popular = async () => {
   const { popularMoviesResults }: { popularMoviesResults: Movie[] } =
     await moviePopular();
-  const garchig = "Popular";
+  const category3 = "Popular";
   return (
     <div className="flex flex-wrap justify-center md:space-x-8">
       <div className="flex flex-col">
         <div className="flex pb-8 pt-13 justify-between">
-          <p className="text-2xl font-semibold" key={garchig}>
-            {garchig}
-          </p>
+          <p className="text-2xl font-semibold">{category3}</p>
           <Link href="/category/popular">
             <button className="pr-10">see more</button>
           </Link>
