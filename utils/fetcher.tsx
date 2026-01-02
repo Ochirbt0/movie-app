@@ -8,3 +8,17 @@ export const fetcher = async (endpoint: string) => {
   });
   return await response.json();
 };
+export const movieSearchedSeeMore = async (secondSearchSeeMore: number) => {
+  const responseSearchedSeeMore = await fetch(
+    `https://api.themoviedb.org/3/movie/${secondSearchSeeMore}?language=en-US`,
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
+      },
+    }
+  );
+
+  const searchedSeeMoreMovies = await responseSearchedSeeMore.json();
+  return { searchedSeeMoreMovies };
+};

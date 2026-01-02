@@ -41,37 +41,31 @@ export const Upcoming = async () => {
         </div>
 
         <div className="md:grid md:grid-cols-5 grid grid-cols-2 gap-8 md:space-x-8 pb-8">
-          {upcomingMoviesResults
-            .map((info) => {
-              return (
-                <div
-                  key={info.title}
-                  className=" w-[157.5px] h-[309.1px] md:w-[229.73px] md:h-109.75 bg-gray-50 rounded-lg  space-y-1"
-                >
-                  <img
-                    src={`https://image.tmdb.org/t/p/original${info.poster_path}`}
-                    alt=""
-                    className="rounded-lg"
-                  />
-                  <div className="flex flex-col pl-2">
-                    <p className="flex items-center w-[213.73px] h-5.75">
-                      <img
-                        src="./star.png"
-                        alt=""
-                        className="w-4 h-4.5 pr-1 pb-1.25"
-                      />
-                      {info.vote_average.toFixed(1)}/10
-                    </p>
-                  </div>
-                  <div className="flex flex-col pl-2">
-                    <p className="text-sm md:text-lg md:w-[213.73px] md:h-14">
-                      {info.title}
-                    </p>
-                  </div>
+          {upcomingMoviesResults.slice(0, 10).map((info) => {
+            return (
+              <div
+                key={info.title}
+                className=" w-[157.5px] h-[309.1px] md:w-[229.73px] md:h-109.75 bg-gray-50 rounded-lg  space-y-1"
+              >
+                <img
+                  src={`https://image.tmdb.org/t/p/original${info.poster_path}`}
+                  alt=""
+                  className="rounded-lg"
+                />
+                <div className="flex flex-col pl-2">
+                  <p className="flex items-center w-[213.73px] h-5.75">
+                    <img src="./star.png" alt="" className="w-4 h-4" />
+                    {info.vote_average.toFixed(1)}/10
+                  </p>
                 </div>
-              );
-            })
-            .slice(0, 10)}
+                <div className="flex flex-col pl-2">
+                  <p className="text-sm md:text-lg md:w-[213.73px] md:h-14">
+                    {info.title}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

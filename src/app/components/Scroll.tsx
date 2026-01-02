@@ -22,7 +22,7 @@ export const Scroll = ({ movies }: ScrollProps) => {
   );
 
   return (
-    <div className="pt-6">
+    <div className="pt-6 z-0">
       <Carousel
         plugins={[plugin.current]}
         className="w-screen"
