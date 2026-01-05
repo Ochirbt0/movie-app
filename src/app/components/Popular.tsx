@@ -1,3 +1,4 @@
+import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
 export type Movie = {
@@ -34,7 +35,9 @@ export const Popular = async () => {
         <div className="flex pb-8 pt-13 justify-between">
           <p className="text-2xl font-semibold">{category3}</p>
           <Link href="/category/popular">
-            <button className="pr-10">see more</button>
+            <button className="flex items-center gap-x-2 pr-10">
+              See more <ArrowRightIcon className="w-4 h-4" />
+            </button>
           </Link>
         </div>
 

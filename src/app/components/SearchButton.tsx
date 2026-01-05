@@ -2,21 +2,15 @@
 import useSWR from "swr";
 import { fetcher } from "../../../utils/fetcher";
 import { ChangeEvent, useState } from "react";
-import { ArrowUpIcon, Loader, Search, Loader2Icon } from "lucide-react";
+import { Loader, Search } from "lucide-react";
 
 import {
   InputGroup,
   InputGroupAddon,
-  InputGroupButton,
   InputGroupInput,
-  InputGroupText,
-  InputGroupTextarea,
 } from "@/components/ui/input-group";
-import Link from "next/link";
 import { SearchResult } from "./SearchResult";
 import { useRouter } from "next/navigation";
-import { stringify } from "querystring";
-import { NoResult } from "./NoResult";
 
 export const SearchButton = () => {
   const [searchValue, setSearchValue] = useState("");
@@ -32,7 +26,7 @@ export const SearchButton = () => {
     setSearchValue(event.target.value);
     push(`?query=${event.target.value}`);
   };
-  // console.log(searchedResults);
+
   return (
     <div>
       <InputGroup>

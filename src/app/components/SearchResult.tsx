@@ -2,8 +2,7 @@ import { Loader2Icon, ArrowRightIcon } from "lucide-react";
 import { NoResult } from "./NoResult";
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
-
-export type Movie = {
+type Movie = {
   title: string;
   od: string;
   vote_average: number;

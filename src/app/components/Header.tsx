@@ -1,5 +1,7 @@
+import { ChevronDown, VectorSquare } from "lucide-react";
 import { SearchButton } from "./SearchButton";
 import Link from "next/link";
+import { GenreList } from "./GenreList";
 
 export const Header = () => {
   return (
@@ -13,7 +15,13 @@ export const Header = () => {
         </Link>
         <div className="flex justify-center items-center space-x-3">
           <div className="flex w-24.25 h-9 border justify-center rounded-md">
-            <button>genre</button>
+            <div className="flex items-center justify-center gap-x-1">
+              <button onClick={GenreList}>
+                <ChevronDown className="w-4 h-4" />
+                Genre
+              </button>
+              {/* <GenreList /> */}
+            </div>
           </div>
           <div className=" w-94.75 md:block hidden">
             <SearchButton />

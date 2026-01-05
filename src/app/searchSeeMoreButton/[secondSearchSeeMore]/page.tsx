@@ -18,6 +18,9 @@ export type Movie = {
   credits: string;
   department: string;
   crew: string;
+  name: string;
+  cast: string;
+  known_for_department: string;
 };
 
 const movieSearchedSeeMore = async (secondSearchSeeMore: number) => {
@@ -48,12 +51,41 @@ const creditsOfSearchedMovie = async (secondSearchSeeMore: number) => {
   );
 
   const creditsOfSearchedSeeMoreMovies = await responsecreditsSearched.json();
-  const creditsOfSearchedSeeMoreMoviesCast =
+  const creditsOfSearchedSeeMoreMoviesCrew =
     creditsOfSearchedSeeMoreMovies.crew;
-  // const crewTeam = creditsOfSearchedSeeMoreMoviesCast[].department;
-  // console.log(crewTeam);
-  return { creditsOfSearchedSeeMoreMoviesCast };
+
+  const foundDirector = creditsOfSearchedSeeMoreMoviesCrew.find(
+    (worker: { known_for_department: string }) =>
+      worker.known_for_department === "Directing"
+  );
+
+  const foundWriting = creditsOfSearchedSeeMoreMoviesCrew
+    .filter(
+      (worker: { known_for_department: string }) =>
+        worker.known_for_department === "Writing"
+    )
+    .slice(0, 3)
+    .map((writers: { name: string }) => writers.name)
+    .join(" · ");
+
+  const creditsOfSearchedSeeMoreMoviesCast =
+    creditsOfSearchedSeeMoreMovies.cast;
+
+  const foundActors = creditsOfSearchedSeeMoreMoviesCast
+    .filter(
+      (worker: { known_for_department: string }) =>
+        worker.known_for_department === "Acting"
+    )
+    .slice(0, 3)
+    .map((item: { name: string }) => item.name)
+    .join(" · ");
+  return {
+    foundDirector: foundDirector as Movie,
+    foundWriting: foundWriting as string[],
+    foundActors: foundActors as string[],
+  };
 };
+
 async function Page({
   params,
 }: {
@@ -63,13 +95,9 @@ async function Page({
 
   const { searchedSeeMoreMovies }: { searchedSeeMoreMovies: Movie } =
     await movieSearchedSeeMore(secondSearchSeeMore);
-  console.log(searchedSeeMoreMovies);
 
-  const {
-    creditsOfSearchedSeeMoreMoviesCast,
-  }: { creditsOfSearchedSeeMoreMoviesCast: Movie } =
+  const { foundDirector, foundWriting, foundActors } =
     await creditsOfSearchedMovie(secondSearchSeeMore);
-  // console.log(creditsOfSearchedSeeMoreMoviesCast);
 
   const minutezadalsan = parseInt(searchedSeeMoreMovies.runtime);
   const minuteToHours = (minutezadalsan: number) => {
@@ -84,7 +112,7 @@ async function Page({
     <div className="w-270 flex flex-col justify-center m-auto pt-13">
       <div className="flex flex-col w-270 justify-center items-center">
         <div className="flex justify-between w-270">
-          <div>
+          <div className="flex flex-col gap-y-1">
             <div className="text-4xl font-extrabold">
               {searchedSeeMoreMovies.title}
             </div>
@@ -120,25 +148,25 @@ async function Page({
       </div>
       <div>
         <div>
-          <button>{}</button>
+          <button></button>
           <button></button>
           <button></button>
           <button></button>
           <button></button>
         </div>
-        <div>{searchedSeeMoreMovies.overview}</div>
-        <div>
-          <div>
-            {/* <div>{creditsOfSearchedSeeMoreMoviesCast[].department.name:directing}</div> */}
-            <div></div>
+        <div className="text-base pt-5">{searchedSeeMoreMovies.overview}</div>
+        <div className="flex flex-col gap-y-2.5 pt-5 ">
+          <div className="flex underline-offset-4 border-b h-10.25">
+            <div className="font-bold w-16 h-7">Director</div>
+            <div className="text-base pl-13.25">{foundDirector.name}</div>
           </div>
-          <div>
-            <div></div>
-            <div></div>
+          <div className="flex underline-offset-4 border-b h-10.25">
+            <div className="font-bold w-16 h-7">Writers</div>
+            <div className="pl-13.25 text-base">{foundWriting}</div>
           </div>
-          <div>
-            <div></div>
-            <div></div>
+          <div className="flex underline-offset-4 border-b h-10.25">
+            <div className="font-bold w-16 h-7">Stars</div>
+            <div className="text-base pl-13.25">{foundActors}</div>
           </div>
         </div>
       </div>

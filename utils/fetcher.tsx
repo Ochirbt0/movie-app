@@ -22,3 +22,20 @@ export const movieSearchedSeeMore = async (secondSearchSeeMore: number) => {
   const searchedSeeMoreMovies = await responseSearchedSeeMore.json();
   return { searchedSeeMoreMovies };
 };
+export const movieGenreList = async () => {
+  const responseGenrelist = await fetch(
+    "https://api.themoviedb.org/3/genre/movie/list?language=en",
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
+      },
+    }
+  );
+
+  const MovieGenre = await responseGenrelist.json();
+  const MovieGenreResults = MovieGenre.name;
+  console.log(MovieGenreResults);
+
+  return { MovieGenreResults };
+};
