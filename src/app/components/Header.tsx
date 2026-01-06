@@ -2,6 +2,21 @@ import { ChevronDown, VectorSquare } from "lucide-react";
 import { SearchButton } from "./SearchButton";
 import Link from "next/link";
 import { GenreList } from "./GenreList";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Header = () => {
   return (
@@ -14,15 +29,19 @@ export const Header = () => {
           </div>
         </Link>
         <div className="flex justify-center items-center space-x-3">
-          <div className="flex w-24.25 h-9 border justify-center rounded-md">
-            <div className="flex items-center justify-center gap-x-1">
-              <button onClick={GenreList}>
-                <ChevronDown className="w-4 h-4" />
-                Genre
-              </button>
-              {/* <GenreList /> */}
-            </div>
+          <div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  <ChevronDown /> Genre
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                <GenreList />
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
+
           <div className=" w-94.75 md:block hidden">
             <SearchButton />
           </div>
