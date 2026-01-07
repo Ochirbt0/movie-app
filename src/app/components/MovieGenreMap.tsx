@@ -48,7 +48,7 @@ export const MovieGenreMap = ({
         }
 
         return (
-          <div key={genres.id} className="">
+          <div key={genres.id} className="font-semibold">
             <button
               className="h-5 flex items-center justify-center border rounded-full text-xs gap-x-2"
               onClick={handleGenresIds(String(genres.id))}

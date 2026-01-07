@@ -9,7 +9,7 @@ type Genre = {
   id: number;
   name: string;
 };
-const movieGenreList = async () => {
+export const movieGenreList = async () => {
   const responseGenrelist = await fetch(
     "https://api.themoviedb.org/3/genre/movie/list?language=en",
     {
@@ -22,8 +22,8 @@ const movieGenreList = async () => {
 
   const MovieGenre = await responseGenrelist.json();
   const MovieGenreResults = MovieGenre.genres;
-  console.log(MovieGenreResults);
-
+  const MovieGenreNames = MovieGenre.name;
+  console.log(MovieGenre);
   return { MovieGenreResults };
 };
 // const discover = async () => {
@@ -34,8 +34,6 @@ const movieGenreList = async () => {
 export const GenreList = async () => {
   const { MovieGenreResults }: { MovieGenreResults: Genre[] } =
     await movieGenreList();
-
-  const handleGenresIds = (id: number) => () => {};
 
   return (
     <div className="w-100 h-70">
