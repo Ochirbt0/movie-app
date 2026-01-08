@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { MouseEvent, useState } from "react";
@@ -17,9 +18,11 @@ export const MovieGenreMap = ({
   const { push } = useRouter();
   const searchParams = useSearchParams();
 
-  const ids = String(searchParams.get("genre_ids")).split(",") ?? [];
+  const ids = String(searchParams.get("genre_ids") ?? "").split(",") ?? [];
 
-  const [genre_ids, setGenre_ids] = useState(ids);
+  const [genre_ids, setGenre_ids] = useState<String[]>(ids);
+
+  console.log(genre_ids);
 
   const handleGenresIds = (id: string) => () => {
     const foundId = genre_ids.find((idd) => idd === id);
@@ -35,22 +38,23 @@ export const MovieGenreMap = ({
       setGenre_ids(gendesIds);
     }
 
-    push(`/discover?genre_ids=${gendesIds.join(",")}`);
+    if (id !== null) {
+      push(`/discover?genre_ids=${gendesIds.filter(Boolean).join(",")}`);
+    }
   };
 
+  console.log(genre_ids);
   return (
-    <div className="pt-8 pl-5 flex flex-wrap gap-x-4 gap-y-4">
+    <div className="pt-8 flex flex-wrap gap-x-4 gap-y-4">
       {MovieGenreResults.map((genres) => {
-        function handleSeeMore(
-          event: MouseEvent<HTMLAnchorElement, MouseEvent>
-        ): void {
-          throw new Error("Function not implemented.");
-        }
-
+        // console.log(MovieGenreResults);
         return (
           <div key={genres.id} className="font-semibold">
             <button
-              className="h-5 flex items-center justify-center border rounded-full text-xs gap-x-2"
+              className={cn(
+                "h-5 flex items-center justify-center border rounded-full text-xs gap-x-2",
+                ids.includes(String(genres?.id)) ? "bg-gray-500" : "bg-white"
+              )}
               onClick={handleGenresIds(String(genres.id))}
             >
               <div className="flex pl-2.5">

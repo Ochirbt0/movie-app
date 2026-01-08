@@ -1,7 +1,7 @@
 "use client";
 import useSWR from "swr";
 import { fetcher } from "../../../utils/fetcher";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import { Loader, Search } from "lucide-react";
 
 import {
@@ -10,11 +10,26 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { SearchResult } from "./SearchResult";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export const SearchButton = () => {
   const [searchValue, setSearchValue] = useState("");
-  const { push } = useRouter();
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      console.log(name, value);
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   const { data, isLoading, error } = useSWR(
     `${process.env.TMDB_BASE_URL}/search/movie?query=${searchValue}&language=en-US&page=1`,
     fetcher
@@ -22,9 +37,10 @@ export const SearchButton = () => {
 
   const searchedResults = data?.results || [];
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
     setSearchValue(event.target.value);
-    push(`?query=${event.target.value}`);
+    router.push(
+      pathname + "?" + createQueryString("query", event.target.value)
+    );
   };
 
   return (

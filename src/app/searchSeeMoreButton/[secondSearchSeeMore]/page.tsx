@@ -1,3 +1,4 @@
+import { MorelikeThis } from "@/app/components/MoreLikeThis";
 import { SearchResult } from "@/app/components/SearchResult";
 import { log } from "console";
 
@@ -91,6 +92,7 @@ async function Page({
 }: {
   params: Promise<{ secondSearchSeeMore: number }>;
 }) {
+  // { MoreLikeThisMoviesResults }: { MoreLikeThisMoviesResults: Movie }
   const { secondSearchSeeMore } = await params;
 
   const { searchedSeeMoreMovies }: { searchedSeeMoreMovies: Movie } =
@@ -99,6 +101,8 @@ async function Page({
   const { foundDirector, foundWriting, foundActors } =
     await creditsOfSearchedMovie(secondSearchSeeMore);
 
+  // const { MoreLikeThisMoviesResults }: { MoreLikeThisMoviesResults: Movie } =
+  //   await MovieMoreLikeThis();
   const minutezadalsan = parseInt(searchedSeeMoreMovies.runtime);
   const minuteToHours = (minutezadalsan: number) => {
     const hours = Math.floor(minutezadalsan / 60);
@@ -169,6 +173,9 @@ async function Page({
             <div className="text-base pl-13.25">{foundActors}</div>
           </div>
         </div>
+      </div>
+      <div>
+        <MorelikeThis secondSearchSeeMore={secondSearchSeeMore} />
       </div>
     </div>
   );

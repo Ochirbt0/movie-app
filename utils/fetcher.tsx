@@ -6,6 +6,7 @@ export const fetcher = async (endpoint: string) => {
     },
     cache: "force-cache",
   });
+
   return await response.json();
 };
 export const movieSearchedSeeMore = async (secondSearchSeeMore: number) => {

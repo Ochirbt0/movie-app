@@ -22,15 +22,11 @@ export const movieGenreList = async () => {
 
   const MovieGenre = await responseGenrelist.json();
   const MovieGenreResults = MovieGenre.genres;
-  const MovieGenreNames = MovieGenre.name;
-  console.log(MovieGenre);
+  // const MovieGenreNames = MovieGenre.name;
+  // console.log(MovieGenre);
   return { MovieGenreResults };
 };
-// const discover = async () => {
-//   const responseDiscover = await fetch(
-//     `https://api.themoviedb.org/3/discover/movie?language=en&with_genres=${genreIds}&page=${page}`
-//   );
-// };
+
 export const GenreList = async () => {
   const { MovieGenreResults }: { MovieGenreResults: Genre[] } =
     await movieGenreList();
@@ -41,7 +37,9 @@ export const GenreList = async () => {
         <div className="font-bold pr-5">Genres</div>
         <div className="border-b pr-5">See lists of movies by genre</div>
       </div>
-      <MovieGenreMap MovieGenreResults={MovieGenreResults} />
+      <div className="pl-5">
+        <MovieGenreMap MovieGenreResults={MovieGenreResults} />
+      </div>
     </div>
   );
 };
