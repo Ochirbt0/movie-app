@@ -1,4 +1,5 @@
 import Link from "next/link";
+import page from "../category/page";
 
 export type Movie = {
   title: string;
@@ -10,11 +11,12 @@ export type Movie = {
   categoryTitle: string;
   length: string;
   name: string;
+  total_results: number;
 };
 
 const movieGenreAppeared = async (ids: string) => {
   const responseAppeared = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?language=en&with_genres=${ids}&page=${1}`,
+    `https://api.themoviedb.org/3/discover/movie?language=en&with_genres=${ids}&page=${1}}`,
     {
       headers: {
         "Content-type": "application/json",
@@ -23,11 +25,11 @@ const movieGenreAppeared = async (ids: string) => {
     }
   );
   const movieAppeared = await responseAppeared.json();
-
+  console.log(movieAppeared);
+  const MovieAppearedTotalResults = movieAppeared.total_results;
   const movieAppearedResults = movieAppeared.results;
-  console.log(movieAppearedResults);
 
-  return { movieAppearedResults };
+  return { movieAppearedResults, MovieAppearedTotalResults };
 };
 const movieGenreList = async (genre_ids: string) => {
   const responseGenrelist = await fetch(
@@ -50,10 +52,12 @@ type GenreAppearanceProps = {
 };
 
 export const GenreAppearance = async ({ genre_ids }: GenreAppearanceProps) => {
-  const { movieAppearedResults }: { movieAppearedResults: Movie[] } =
+  // const searchParams = useSearchParams();
+  const {
+    movieAppearedResults,
+    MovieAppearedTotalResults,
+  }: { movieAppearedResults: Movie[]; MovieAppearedTotalResults: number } =
     await movieGenreAppeared(genre_ids);
-  console.log(genre_ids); // array bolgoj maplaad irj bga genre-s aa find hiine . taviad name avna(find hiihde)
-
   const {
     MovieGenreResults,
   }: { MovieGenreResults: { id: number; name: string }[] } =
@@ -65,12 +69,14 @@ export const GenreAppearance = async ({ genre_ids }: GenreAppearanceProps) => {
     (genre_id) => MovieGenreResults.find(({ id }) => genre_id === id)?.name
   );
   const joined = finder.join(", ");
+
+  // const currentPage = searchParams.get("page") ?? 1;
   // console.log(movieAppearedResults);
 
   return (
     <div className="flex flex-col justify-start pt-5 w-201.5 pl-5">
       <div className=" h-7 text-xl font-semibold">
-        {movieAppearedResults.length} titles in "{joined}"
+        {MovieAppearedTotalResults} titles in "{joined}"
       </div>
       <div className="md:grid md:grid-cols-4 grid grid-cols-2 md:gap-x-48 md:gap-y-8 pt-8">
         {movieAppearedResults.slice(0, 12).map((kino) => {

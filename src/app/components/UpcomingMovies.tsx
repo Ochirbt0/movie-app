@@ -1,5 +1,9 @@
+"use client";
+
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import useSWR from "swr";
 
 export type Movie = {
   title: string;
@@ -10,26 +14,31 @@ export type Movie = {
   categoryTitle: string;
 };
 
-const movieUpcoming = async () => {
-  const responseUpcoming = await fetch(
-    "https://api.themoviedb.org/3/movie/upcoming?language=en-US@",
-    {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
-      },
-    }
-  );
+export const movieUpcoming = async (endPoint: string) => {
+  const responseUpcoming = await fetch(endPoint, {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
+    },
+  });
 
   const upcomingMovies = await responseUpcoming.json();
+  const totalPages = upcomingMovies.total_pages;
   const upcomingMoviesResults = upcomingMovies.results;
 
-  return { upcomingMoviesResults };
+  return { totalPages, movies: upcomingMoviesResults as Movie[] };
 };
 
-export const Upcoming = async () => {
-  const { upcomingMoviesResults }: { upcomingMoviesResults: Movie[] } =
-    await movieUpcoming();
+export const Upcoming = () => {
+  const searchParams = useSearchParams();
+  const currentPage = searchParams.get("Page") ?? 1;
+
+  const { data, isLoading } = useSWR(
+    `${process.env.NEXT_PUBLIC_TMDB_BASE_URL}/movie/upcoming?language=en-US&page=${currentPage}`,
+    movieUpcoming
+  );
+  const movies = data?.movies;
+  console.log(data);
   const category1 = "Upcoming";
   return (
     <div className="flex flex-wrap justify-center md:items-center md:space-x-8">
@@ -44,7 +53,7 @@ export const Upcoming = async () => {
         </div>
 
         <div className="md:grid md:grid-cols-5 grid grid-cols-2 gap-8 md:space-x-8 pb-8">
-          {upcomingMoviesResults.slice(0, 10).map((info) => {
+          {movies?.slice(0, 10).map((info) => {
             return (
               <div
                 key={info.title}

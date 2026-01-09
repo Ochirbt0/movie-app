@@ -38,7 +38,7 @@ export const MorelikeThis = async ({
     <div>
       <div className="flex justify-between pt-10">
         <div className="text-2xl font-semibold">More like this</div>
-        <Link href={`/morelikethis/${secondSearchSeeMore}`}>
+        <Link href={`/moreLikeThis/${secondSearchSeeMore}`}>
           <button className="flex justify-center items-center gap-x-2 text-sm">
             See more <ArrowRightIcon className="w-4 h-4" />
           </button>
