@@ -1,5 +1,7 @@
 import Link from "next/link";
 import page from "../category/page";
+import { DynamicPagination } from "./DynamicPagination";
+// import { useSearchParams } from "next/navigation";
 
 export type Movie = {
   title: string;
@@ -13,7 +15,19 @@ export type Movie = {
   name: string;
   total_results: number;
 };
+export const movieGenre = async (endPoint: string) => {
+  const responseUpcoming = await fetch(endPoint, {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_MY_API_KEY}`,
+    },
+  });
+  const upcomingMovies = await responseUpcoming.json();
+  const totalPages = upcomingMovies.total_pages;
+  const upcomingMoviesResults = upcomingMovies.results;
 
+  return { totalPages, movies: upcomingMoviesResults as Movie[] };
+};
 const movieGenreAppeared = async (ids: string) => {
   const responseAppeared = await fetch(
     `https://api.themoviedb.org/3/discover/movie?language=en&with_genres=${ids}&page=${1}}`,
@@ -26,6 +40,7 @@ const movieGenreAppeared = async (ids: string) => {
   );
   const movieAppeared = await responseAppeared.json();
   console.log(movieAppeared);
+  const genreTotalPages = movieAppeared.total_pages;
   const MovieAppearedTotalResults = movieAppeared.total_results;
   const movieAppearedResults = movieAppeared.results;
 
@@ -53,6 +68,7 @@ type GenreAppearanceProps = {
 
 export const GenreAppearance = async ({ genre_ids }: GenreAppearanceProps) => {
   // const searchParams = useSearchParams();
+  // const currentPage = searchParams.get("page") ?? 1;
   const {
     movieAppearedResults,
     MovieAppearedTotalResults,
@@ -69,9 +85,6 @@ export const GenreAppearance = async ({ genre_ids }: GenreAppearanceProps) => {
     (genre_id) => MovieGenreResults.find(({ id }) => genre_id === id)?.name
   );
   const joined = finder.join(", ");
-
-  // const currentPage = searchParams.get("page") ?? 1;
-  // console.log(movieAppearedResults);
 
   return (
     <div className="flex flex-col justify-start pt-5 w-201.5 pl-5">
@@ -105,6 +118,7 @@ export const GenreAppearance = async ({ genre_ids }: GenreAppearanceProps) => {
           );
         })}
       </div>
+      {/* <DynamicPagination totalPage={}/> */}
     </div>
   );
 };

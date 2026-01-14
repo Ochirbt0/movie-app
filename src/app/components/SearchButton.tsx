@@ -31,11 +31,12 @@ export const SearchButton = () => {
   );
 
   const { data, isLoading, error } = useSWR(
-    `${process.env.TMDB_BASE_URL}/search/movie?query=${searchValue}&language=en-US&page=1`,
+    `${process.env.NEXT_PUBLIC_TMDB_BASE_URL}/search/movie?query=${searchValue}&language=en-US&page=1`,
     fetcher
   );
 
   const searchedResults = data?.results || [];
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
     router.push(

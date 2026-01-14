@@ -4,6 +4,7 @@ import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
+import { DynamicPagination } from "./DynamicPagination";
 
 export type Movie = {
   title: string;
@@ -38,7 +39,9 @@ export const Upcoming = () => {
     movieUpcoming
   );
   const movies = data?.movies;
-  console.log(data);
+  const total_pages = data?.totalPages;
+  console.log(total_pages);
+
   const category1 = "Upcoming";
   return (
     <div className="flex flex-wrap justify-center md:items-center md:space-x-8">
@@ -53,31 +56,33 @@ export const Upcoming = () => {
         </div>
 
         <div className="md:grid md:grid-cols-5 grid grid-cols-2 gap-8 md:space-x-8 pb-8">
-          {movies?.slice(0, 10).map((info) => {
-            return (
-              <div
-                key={info.title}
-                className=" w-[157.5px] h-[309.1px] md:w-[229.73px] md:h-109.75 bg-gray-50 rounded-lg  space-y-1"
-              >
-                <img
-                  src={`https://image.tmdb.org/t/p/original${info.poster_path}`}
-                  alt=""
-                  className="rounded-lg"
-                />
-                <div className="flex flex-col pl-2">
-                  <p className="flex items-center w-[213.73px] h-5.75">
-                    <img src="./star.png" alt="" className="w-4 h-4" />
-                    {info.vote_average.toFixed(1)}/10
-                  </p>
-                </div>
-                <div className="flex flex-col pl-2">
-                  <p className="text-sm md:text-lg md:w-[213.73px] md:h-14">
-                    {info.title}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+          {isLoading
+            ? "Loading..."
+            : movies?.slice(0, 10).map((info) => {
+                return (
+                  <div
+                    key={info.title}
+                    className=" w-[157.5px] h-[309.1px] md:w-[229.73px] md:h-109.75 bg-gray-50 rounded-lg  space-y-1"
+                  >
+                    <img
+                      src={`https://image.tmdb.org/t/p/original${info.poster_path}`}
+                      alt=""
+                      className="rounded-lg"
+                    />
+                    <div className="flex flex-col pl-2">
+                      <p className="flex items-center w-[213.73px] h-5.75">
+                        <img src="./star.png" alt="" className="w-4 h-4" />
+                        {info.vote_average.toFixed(1)}/10
+                      </p>
+                    </div>
+                    <div className="flex flex-col pl-2">
+                      <p className="text-sm md:text-lg md:w-[213.73px] md:h-14">
+                        {info.title}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
         </div>
       </div>
     </div>

@@ -53,7 +53,9 @@ export const MovieGenreMap = ({
             <button
               className={cn(
                 "h-5 flex items-center justify-center border rounded-full text-xs gap-x-2",
-                ids.includes(String(genres?.id)) ? "bg-gray-500" : "bg-white"
+                ids.includes(String(genres?.id))
+                  ? "bg-gray-500 text-white"
+                  : "bg-white text-black"
               )}
               onClick={handleGenresIds(String(genres.id))}
             >
