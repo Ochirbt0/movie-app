@@ -2,6 +2,7 @@ import { Loader2Icon, ArrowRightIcon } from "lucide-react";
 import { NoResult } from "./NoResult";
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
+import { useParams } from "next/navigation";
 type Movie = {
   title: string;
   od: string;
@@ -28,6 +29,8 @@ export const SearchResult = ({
   searchValue,
   setSearchValue,
 }: SearchResultProps) => {
+    const params = useParams();
+    const searchAllResult = params.searchAllResult as string;
   const handleSeeMore = () => setSearchValue("");
 
   return (
@@ -87,7 +90,9 @@ export const SearchResult = ({
                 );
               })}
               <div className="text-sm font-medium pl-3 w-53 h-10 content-center">
-                <button>See all results for "{searchValue}"</button>
+                <Link href={`/allResult/${searchAllResult}`}>
+                  <button>See all results for "{searchValue}"</button>
+                </Link>
               </div>
             </div>
           </>

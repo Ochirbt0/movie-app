@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import path from "path";
+
 
 export const usePagination = () => {
   const { push } = useRouter();
